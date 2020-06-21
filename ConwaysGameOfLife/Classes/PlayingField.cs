@@ -6,7 +6,9 @@ namespace ConwaysGameOfLife.Classes
 {
     class PlayingField
     {
-        public int Height ;
+        Cell[,] FieldSize = new Cell[100, 100];
+
+        public int Height;
 
         public int Length;
     }
