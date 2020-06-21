@@ -1,15 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 
 namespace ConwaysGameOfLife.Classes
 {
     class PlayingField
     {
-        Cell[,] FieldSize = new Cell[100, 100];
+        static Cell[,] FieldSize = new Cell[100, 80];
 
-        public int Height;
+        private static int _length = FieldSize.GetLength(0);
 
-        public int Length;
+        private static int _height = FieldSize.GetLength(1);
+                
+
+
+        public static void FillingPlayingFieldWithCells()
+        {
+            for (int i = 0; i < _height; i++)
+            {
+                for (int j = 0; j < _length; j++)
+                {
+                    Classes.Cell cell = new Cell();
+                }
+            }            
+        }
     }
 }
