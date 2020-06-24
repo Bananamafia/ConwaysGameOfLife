@@ -19,7 +19,7 @@ namespace ConwaysGameOfLife.Classes
 
         public bool IsAlive { get; set; } = _startLivingCondition();
 
-        public int[,] PositionOfCell;
+        public int[] PositionOfCell;
 
         List<Cell> NeighbourCells = new List<Cell>();
 

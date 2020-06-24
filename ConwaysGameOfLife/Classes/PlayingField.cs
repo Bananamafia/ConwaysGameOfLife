@@ -26,7 +26,7 @@ namespace ConwaysGameOfLife.Classes
             {
                 for (int j = 0; j < _fieldLength; j++)
                 {
-                    Field[j, i] = new Cell() { PositionOfCell = new int[,] { { j, i } } };
+                    Field[j, i] = new Cell() { PositionOfCell = new int[] { j, i } };
                 }
             }
         }
@@ -85,12 +85,7 @@ namespace ConwaysGameOfLife.Classes
                     grid.Children.Add(_rectangle);
 
 
-                    //ShowPosition of Cell
-                    ////TextBlock txt = new TextBlock();
-                    ////txt.Text = $"{_chosenCell.PositionOfCell[0, 0]} | {_chosenCell.PositionOfCell[0,1]}";
-                    ////Grid.SetColumn(txt, j);
-                    ////Grid.SetRow(txt, i);
-                    ////grid.Children.Add(txt);
+
 
                 }
 
@@ -110,7 +105,7 @@ namespace ConwaysGameOfLife.Classes
 
                     TextBlock txt = new TextBlock();
 
-                    txt.Text = $"{_chosenCell.PositionOfCell[0, 0]} | {_chosenCell.PositionOfCell[0, 1]}";
+                    txt.Text = $"{_chosenCell.PositionOfCell[0]} | {_chosenCell.PositionOfCell[1]}";
 
                     Grid.SetColumn(txt, j);
                     Grid.SetRow(txt, i);

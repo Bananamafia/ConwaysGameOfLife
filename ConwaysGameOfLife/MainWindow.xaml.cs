@@ -23,6 +23,16 @@ namespace ConwaysGameOfLife
         public MainWindow()
         {
             InitializeComponent();
+
+            Classes.PlayingField.SettingUpPlayingFieldGrid(PlayingFieldGrid);
+
+            Classes.PlayingField.FillingPlayingFieldWithCells();
+
+            //Classes.PlayingField.ColourizePlayingFieldGrid(PlayingFieldGrid);
+
+            Classes.PlayingField.ShowCellPosition(PlayingFieldGrid);
+
+
         }
     }
 }
