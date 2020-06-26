@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
+using System.Windows.Media;
 
 namespace ConwaysGameOfLife.Classes
 {
@@ -19,11 +21,38 @@ namespace ConwaysGameOfLife.Classes
 
         public bool IsAlive { get; set; } = _startLivingCondition();
 
+        public SolidColorBrush CellColor
+        {
+            get
+            {
+                SolidColorBrush _solidColorBrush = new SolidColorBrush();
+
+                if (IsAlive == true)
+                {
+                    _solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
+                }
+                else
+                {
+                    _solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
+                }
+
+                return _solidColorBrush;
+            }
+        }
+
+
+
         public int[] PositionOfCell;
 
         List<Cell> NeighbourCells = new List<Cell>();
 
         public int LivingNeighbourCells { get; set; }
+
+
+
+        public Brush CProp { get; set; }
+
+        public String CString { get; set; }
 
     }
 

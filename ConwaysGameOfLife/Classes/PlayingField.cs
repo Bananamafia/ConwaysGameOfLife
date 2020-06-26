@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -11,14 +13,17 @@ namespace ConwaysGameOfLife.Classes
 {
     class PlayingField
     {
-        //static Cell[,] Field = new Cell[85, 65];
-
-        static Cell[,] Field = new Cell[50, 30];
+        static Cell[,] Field = new Cell[120, 100];
 
         private static int _fieldLength = Field.GetLength(0);
 
         private static int _fieldHeight = Field.GetLength(1);
 
+
+        public static void PrintOutTest()
+        {
+            MessageBox.Show(Field[1, 1].CellColor.ToString());
+        }
 
         public static void FillingPlayingFieldWithCells()
         {
@@ -47,51 +52,28 @@ namespace ConwaysGameOfLife.Classes
 
         public static void ColourizePlayingFieldGrid(Grid grid)
         {
-            SolidColorBrush livingCellColorBrush = new SolidColorBrush();
-            livingCellColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
-
-            SolidColorBrush deadCellColorBrush = new SolidColorBrush();
-            deadCellColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
-
-
-
             Cell _chosenCell;
-            bool _isCellAllive;
 
             for (int i = 0; i < _fieldHeight; i++)
             {
                 for (int j = 0; j < _fieldLength; j++)
                 {
-
-
                     _chosenCell = Field[j, i];
-                    _isCellAllive = _chosenCell.IsAlive;
 
-                    System.Windows.Shapes.Rectangle _rectangle = new System.Windows.Shapes.Rectangle();
+                    TextBlock _textBlock = new TextBlock();
 
+                    _textBlock.SetBinding(TextBlock.BackgroundProperty, "CellColor");
 
-                    if (_isCellAllive == true)
-                    {
-                        _rectangle.Fill = livingCellColorBrush;
-                    }
-                    else
-                    {
-                        _rectangle.Fill = deadCellColorBrush;
-                    }
+                    _textBlock.DataContext = _chosenCell;
 
-                    Grid.SetColumn(_rectangle, j);
-                    Grid.SetRow(_rectangle, i);
+                    Grid.SetColumn(_textBlock, j);
+                    Grid.SetRow(_textBlock, i);
 
-                    grid.Children.Add(_rectangle);
-
-
-
-
+                    grid.Children.Add(_textBlock);
                 }
 
             }
         }
-
 
         public static void ShowCellPosition(Grid grid)
         {
