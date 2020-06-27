@@ -16,11 +16,12 @@ namespace ConwaysGameOfLife.Classes
         {
             Random rnd = new Random();
             const int _maxValue = 100;
-            const int _livingChance = 30;
+            const int _livingChance = 18;
 
             return rnd.Next(_maxValue) <= _livingChance;
         }
         public bool IsAlive { get; set; } = _startLivingCondition();
+        public bool IsAliveInNextRound { get; set; }
         public SolidColorBrush CellColor
         {
             get
@@ -90,7 +91,6 @@ namespace ConwaysGameOfLife.Classes
                 return _neighbourCells;
             }
         }
-
         public int LivingNeighbourCells
         {
             get
@@ -108,6 +108,30 @@ namespace ConwaysGameOfLife.Classes
                 return counter;
             }
         }
+
+
+        public static void SetLivingStatusForNextRound(Cell cell)
+        {
+            if (!cell.IsAlive && cell.LivingNeighbourCells == 3)
+            {
+                cell.IsAliveInNextRound = true;
+            }
+
+            if (cell.IsAlive)
+            {
+                if (cell.LivingNeighbourCells < 2)
+                {
+                    cell.IsAliveInNextRound = false;
+                }
+                else if (cell.LivingNeighbourCells > 3)
+                {
+                    cell.IsAliveInNextRound = false;
+                }
+            }
+        }
+
+
+
     }
 
 

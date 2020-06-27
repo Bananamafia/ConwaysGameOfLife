@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,8 +14,8 @@ namespace ConwaysGameOfLife.Classes
 {
     class PlayingField
     {
-        public static Cell[,] Field = new Cell[120, 100];
-        //public static Cell[,] Field = new Cell[30, 20];
+        //public static Cell[,] Field = new Cell[120, 100];
+        public static Cell[,] Field = new Cell[60, 60];
 
 
         private static int _fieldLength = Field.GetLength(0);
@@ -48,6 +49,8 @@ namespace ConwaysGameOfLife.Classes
 
         public static void ColourizePlayingFieldGrid(Grid grid)
         {
+            grid.Children.Clear();
+
             Cell _chosenCell;
 
             for (int i = 0; i < _fieldHeight; i++)
@@ -69,6 +72,27 @@ namespace ConwaysGameOfLife.Classes
                 }
             }
         }
+
+        public static async void DoPopulation(Grid grid)
+        {
+            while (true)
+            {
+                foreach (Cell cell in Classes.PlayingField.Field)
+                {
+                    Classes.Cell.SetLivingStatusForNextRound(cell);
+                }
+
+                foreach (Cell cell in Classes.PlayingField.Field)
+                {
+                    cell.IsAlive = cell.IsAliveInNextRound;
+                }
+
+                Classes.PlayingField.ColourizePlayingFieldGrid(grid);
+
+                await Task.Delay(200);
+            }
+        }
+
 
         public static void ShowCellPosition(Grid grid)
         {
