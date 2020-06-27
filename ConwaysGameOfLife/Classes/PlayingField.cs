@@ -13,17 +13,14 @@ namespace ConwaysGameOfLife.Classes
 {
     class PlayingField
     {
-        static Cell[,] Field = new Cell[120, 100];
+        public static Cell[,] Field = new Cell[120, 100];
+        //public static Cell[,] Field = new Cell[30, 20];
+
 
         private static int _fieldLength = Field.GetLength(0);
 
         private static int _fieldHeight = Field.GetLength(1);
 
-
-        public static void PrintOutTest()
-        {
-            MessageBox.Show(Field[1, 1].CellColor.ToString());
-        }
 
         public static void FillingPlayingFieldWithCells()
         {
@@ -49,7 +46,6 @@ namespace ConwaysGameOfLife.Classes
             }
         }
 
-
         public static void ColourizePlayingFieldGrid(Grid grid)
         {
             Cell _chosenCell;
@@ -71,7 +67,6 @@ namespace ConwaysGameOfLife.Classes
 
                     grid.Children.Add(_textBlock);
                 }
-
             }
         }
 
@@ -92,11 +87,31 @@ namespace ConwaysGameOfLife.Classes
                     Grid.SetColumn(txt, j);
                     Grid.SetRow(txt, i);
                     grid.Children.Add(txt);
-
                 }
-
             }
         }
+
+        public static void ShowNumberOfLivingCellNeighbours(Grid grid)
+        {
+            Cell _chosenCell;
+
+            for (int i = 0; i < _fieldHeight; i++)
+            {
+                for (int j = 0; j < _fieldLength; j++)
+                {
+                    _chosenCell = Field[j, i];
+
+                    TextBlock txt = new TextBlock();
+
+                    txt.Text = $"{_chosenCell.LivingNeighbourCells}";
+
+                    Grid.SetColumn(txt, j);
+                    Grid.SetRow(txt, i);
+                    grid.Children.Add(txt);
+                }
+            }
+        }
+
 
     }
 }

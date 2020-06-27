@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace ConwaysGameOfLife.Classes
@@ -18,9 +20,7 @@ namespace ConwaysGameOfLife.Classes
 
             return rnd.Next(_maxValue) <= _livingChance;
         }
-
         public bool IsAlive { get; set; } = _startLivingCondition();
-
         public SolidColorBrush CellColor
         {
             get
@@ -41,19 +41,73 @@ namespace ConwaysGameOfLife.Classes
         }
 
 
-
         public int[] PositionOfCell;
 
-        List<Cell> NeighbourCells = new List<Cell>();
+        public List<Cell> NeighbourCells
+        {
+            get
+            {
+                List<Cell> _neighbourCells = new List<Cell>();
 
-        public int LivingNeighbourCells { get; set; }
+                int leftColumn = this.PositionOfCell[0] - 1;
+                int rightColumn = this.PositionOfCell[0] + 1;
+
+                int upperRow = this.PositionOfCell[1] - 1;
+                int lowerRow = this.PositionOfCell[1] + 1;
+
+                if (leftColumn < 0)
+                {
+                    leftColumn = PlayingField.Field.GetLength(0) - 1;
+                }
+
+                if (rightColumn > PlayingField.Field.GetLength(0) - 1)
+                {
+                    rightColumn = 0;
+                }
 
 
+                if (upperRow < 0)
+                {
+                    upperRow = PlayingField.Field.GetLength(1) - 1;
+                }
 
-        public Brush CProp { get; set; }
+                if (lowerRow > PlayingField.Field.GetLength(1) - 1)
+                {
+                    lowerRow = 0;
+                }
 
-        public String CString { get; set; }
+                _neighbourCells.Add(PlayingField.Field[leftColumn, upperRow]);
+                _neighbourCells.Add(PlayingField.Field[PositionOfCell[0], upperRow]);
+                _neighbourCells.Add(PlayingField.Field[rightColumn, upperRow]);
 
+                _neighbourCells.Add(PlayingField.Field[leftColumn, PositionOfCell[1]]);
+                _neighbourCells.Add(PlayingField.Field[rightColumn, PositionOfCell[1]]);
+
+                _neighbourCells.Add(PlayingField.Field[leftColumn, lowerRow]);
+                _neighbourCells.Add(PlayingField.Field[PositionOfCell[0], lowerRow]);
+                _neighbourCells.Add(PlayingField.Field[rightColumn, lowerRow]);
+
+                return _neighbourCells;
+            }
+        }
+
+        public int LivingNeighbourCells
+        {
+            get
+            {
+                int counter = 0;
+
+                foreach (Cell cell in this.NeighbourCells)
+                {
+                    if (cell.IsAlive)
+                    {
+                        counter++;
+                    }
+                }
+
+                return counter;
+            }
+        }
     }
 
 
