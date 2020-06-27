@@ -14,25 +14,13 @@ namespace ConwaysGameOfLife.Classes
 {
     class PlayingField
     {
-        //public static Cell[,] Field = new Cell[120, 100];
+        //public static Cell[,] Field = new Cell[70, 70];
         public static Cell[,] Field = new Cell[60, 60];
 
 
         private static int _fieldLength = Field.GetLength(0);
 
         private static int _fieldHeight = Field.GetLength(1);
-
-
-        public static void FillingPlayingFieldWithCells()
-        {
-            for (int i = 0; i < _fieldHeight; i++)
-            {
-                for (int j = 0; j < _fieldLength; j++)
-                {
-                    Field[j, i] = new Cell() { PositionOfCell = new int[] { j, i } };
-                }
-            }
-        }
 
         public static void SettingUpPlayingFieldGrid(Grid grid)
         {
@@ -46,6 +34,41 @@ namespace ConwaysGameOfLife.Classes
                 grid.RowDefinitions.Add(new RowDefinition());
             }
         }
+
+        public static void FillingPlayingFieldWithCells()
+        {
+            for (int i = 0; i < _fieldHeight; i++)
+            {
+                for (int j = 0; j < _fieldLength; j++)
+                {
+                    Field[j, i] = new Cell() { PositionOfCell = new int[] { j, i } };
+                }
+            }
+        }
+
+        public static void FillingPlayingFieldWithColorBlocks(Grid grid)
+        {
+            Cell _chosenCell;
+
+            for (int i = 0; i < _fieldHeight; i++)
+            {
+                for (int j = 0; j < _fieldLength; j++)
+                {
+                    _chosenCell = Field[j, i];
+
+                    TextBlock _textBlock = new TextBlock();
+                    _textBlock.SetBinding(TextBlock.BackgroundProperty, "CellColor");
+                    _textBlock.DataContext = _chosenCell;
+
+                    Grid.SetColumn(_textBlock, j);
+                    Grid.SetRow(_textBlock, i);
+
+                    grid.Children.Add(_textBlock);
+                }
+            }
+        }
+
+
 
         public static void ColourizePlayingFieldGrid(Grid grid)
         {
@@ -72,27 +95,6 @@ namespace ConwaysGameOfLife.Classes
                 }
             }
         }
-
-        public static async void DoPopulation(Grid grid)
-        {
-            while (true)
-            {
-                foreach (Cell cell in Classes.PlayingField.Field)
-                {
-                    Classes.Cell.SetLivingStatusForNextRound(cell);
-                }
-
-                foreach (Cell cell in Classes.PlayingField.Field)
-                {
-                    cell.IsAlive = cell.IsAliveInNextRound;
-                }
-
-                Classes.PlayingField.ColourizePlayingFieldGrid(grid);
-
-                await Task.Delay(200);
-            }
-        }
-
 
         public static void ShowCellPosition(Grid grid)
         {

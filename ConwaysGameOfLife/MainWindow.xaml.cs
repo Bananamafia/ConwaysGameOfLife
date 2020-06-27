@@ -34,7 +34,7 @@ namespace ConwaysGameOfLife
 
             Classes.PlayingField.FillingPlayingFieldWithCells();
 
-            Classes.PlayingField.ColourizePlayingFieldGrid(PlayingFieldGrid);
+            Classes.PlayingField.FillingPlayingFieldWithColorBlocks(PlayingFieldGrid);
 
             //Classes.PlayingField.ShowCellPosition(PlayingFieldGrid);             
 
@@ -44,7 +44,12 @@ namespace ConwaysGameOfLife
 
         private void PopulateCells_Click(object sender, RoutedEventArgs e)
         {
-            Classes.PlayingField.DoPopulation(PlayingFieldGrid);
+            Classes.Cell.SimulatePoplulation(true);
         }
+
+        //private void CanclePopulateCells_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Classes.Cell.SimulatePoplulation(false);
+        //}
     }
 }

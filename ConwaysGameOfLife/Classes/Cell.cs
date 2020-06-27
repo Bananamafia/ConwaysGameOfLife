@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,7 +12,7 @@ namespace ConwaysGameOfLife.Classes
 {
 
 
-    class Cell
+    class Cell : INotifyPropertyChanged
     {
         static bool _startLivingCondition()
         {
@@ -21,24 +23,36 @@ namespace ConwaysGameOfLife.Classes
             return rnd.Next(_maxValue) <= _livingChance;
         }
         public bool IsAlive { get; set; } = _startLivingCondition();
-        public bool IsAliveInNextRound { get; set; }
+        public bool IsAliveInNextTurn { get; set; }
+
+        private SolidColorBrush cellColor;
         public SolidColorBrush CellColor
         {
             get
             {
-                SolidColorBrush _solidColorBrush = new SolidColorBrush();
+                SolidColorBrush solidColorBrush = new SolidColorBrush();
 
-                if (IsAlive == true)
+                if (IsAlive)
                 {
-                    _solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
+                    solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
                 }
                 else
                 {
-                    _solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
+                    solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
                 }
 
-                return _solidColorBrush;
+                cellColor = solidColorBrush;
+
+                return cellColor;
             }
+            set
+            {
+                cellColor = value;
+                OnPropertyChanged("CellColor");
+            }
+
+
+
         }
 
 
@@ -110,29 +124,72 @@ namespace ConwaysGameOfLife.Classes
         }
 
 
-        public static void SetLivingStatusForNextRound(Cell cell)
+        public void SetLivingStatusOfNextTurn()
         {
-            if (!cell.IsAlive && cell.LivingNeighbourCells == 3)
+            if (!IsAlive && LivingNeighbourCells == 3)
             {
-                cell.IsAliveInNextRound = true;
+                IsAliveInNextTurn = true;
             }
 
-            if (cell.IsAlive)
+            if (IsAlive)
             {
-                if (cell.LivingNeighbourCells < 2)
+                if (LivingNeighbourCells < 2)
                 {
-                    cell.IsAliveInNextRound = false;
+                    IsAliveInNextTurn = false;
                 }
-                else if (cell.LivingNeighbourCells > 3)
+                else if (LivingNeighbourCells > 3)
                 {
-                    cell.IsAliveInNextRound = false;
+                    IsAliveInNextTurn = false;
                 }
             }
         }
 
+        public void Populate()
+        {
+            IsAlive = IsAliveInNextTurn;
 
+            SolidColorBrush solidColorBrush = new SolidColorBrush();
+
+            if (IsAlive)
+            {
+                solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
+            }
+            else
+            {
+                solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
+            }
+
+            CellColor = solidColorBrush;
+        }
+
+        public static async void SimulatePoplulation(bool activated)
+        {
+            while (activated)
+            {
+                foreach (Cell cell in Classes.PlayingField.Field)
+                {
+                    cell.SetLivingStatusOfNextTurn();
+                }
+                foreach (Cell cell in Classes.PlayingField.Field)
+                {
+                    cell.Populate();
+                }
+
+                await Task.Delay(100);
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string property)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(property));
+            }
+
+        }
 
     }
-
-
 }

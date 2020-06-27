@@ -14,10 +14,19 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="PopulateCells"
-                Click="PopulateCells_Click"
-                Grid.Row="0"
-                Margin="10">Populate Cells</Button>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button x:Name="PopulateCells"
+                    Click="PopulateCells_Click"
+                    Grid.Row="0"
+                    Margin="10">Populate Cells</Button>
+            
+            <Button x:Name="CanclePopulateCells"
+                    Click="CanclePopulateCells_Click"
+                    Grid.Row="0"
+                    Margin="10">Cancle Population</Button>
+        </StackPanel>
+        
         
         
         <Grid x:Name="PlayingFieldGrid"
