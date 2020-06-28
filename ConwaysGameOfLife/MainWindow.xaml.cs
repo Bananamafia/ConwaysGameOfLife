@@ -26,31 +26,24 @@ namespace ConwaysGameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindow AppWindow;
+
         public MainWindow()
         {
             InitializeComponent();
+            AppWindow = this;
 
-            Classes.PlayingField.SettingUpPlayingFieldGrid(PlayingFieldGrid);
-
-            Classes.PlayingField.FillingPlayingFieldWithCells();
-
-            Classes.PlayingField.FillingPlayingFieldWithColorBlocks(PlayingFieldGrid);
-
-            //Classes.PlayingField.ShowCellPosition(PlayingFieldGrid);             
-
-            //Classes.PlayingField.ShowNumberOfLivingCellNeighbours(PlayingFieldGrid);
-
+            Classes.GameManager.StartGame();
         }
 
         private void PopulateCells_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Cell.PupulationCycleActivated = true;
-            Classes.Cell.SimulatePoplulation();
+            Classes.GameManager.PlayGame();
         }
 
         private void CanclePopulateCells_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Cell.PupulationCycleActivated = false;
+            Classes.GameManager.PauseGame();
         }
 
 

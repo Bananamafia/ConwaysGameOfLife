@@ -57,9 +57,7 @@ namespace ConwaysGameOfLife.Classes
 
         }
 
-
         public int[] PositionOfCell;
-
         public List<Cell> NeighbourCells
         {
             get
@@ -126,55 +124,41 @@ namespace ConwaysGameOfLife.Classes
         }
 
 
-        public void SetLivingStatusOfNextTurn()
-        {
-            if (!IsAlive && LivingNeighbourCells == 3)
-            {
-                IsAliveInNextTurn = true;
-            }
-
-            if (IsAlive)
-            {
-                if (LivingNeighbourCells < 2)
-                {
-                    IsAliveInNextTurn = false;
-                }
-                else if (LivingNeighbourCells > 3)
-                {
-                    IsAliveInNextTurn = false;
-                }
-            }
-        }
-
-        public void Populate()
-        {
-            IsAlive = IsAliveInNextTurn;
-
-            SolidColorBrush solidColorBrush = new SolidColorBrush();
-
-            if (IsAlive)
-            {
-                solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
-            }
-            else
-            {
-                solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
-            }
-
-            CellColor = solidColorBrush;
-        }
-
         public static async void SimulatePoplulation()
         {
             while (PupulationCycleActivated)
             {
+                SolidColorBrush solidColorBrush = new SolidColorBrush();
+
                 foreach (Cell cell in Classes.PlayingField.Field)
                 {
-                    cell.SetLivingStatusOfNextTurn();
+                    if (!cell.IsAlive && cell.LivingNeighbourCells == 3)
+                    {
+                        cell.IsAliveInNextTurn = true;
+                        solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
+                    }
+
+                    if (cell.IsAlive)
+                    {
+                        if (cell.LivingNeighbourCells < 2)
+                        {
+                            cell.IsAliveInNextTurn = false;
+                            solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
+                        }
+                        else if (cell.LivingNeighbourCells > 3)
+                        {
+                            cell.IsAliveInNextTurn = false;
+                            solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
+                        }
+                    }
+
+                    cell.CellColor = solidColorBrush;
+
                 }
+
                 foreach (Cell cell in Classes.PlayingField.Field)
                 {
-                    cell.Populate();
+                    cell.IsAlive = cell.IsAliveInNextTurn;
                 }
 
                 await Task.Delay(100);
