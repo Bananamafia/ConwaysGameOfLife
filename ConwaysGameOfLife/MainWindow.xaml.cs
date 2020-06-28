@@ -44,12 +44,19 @@ namespace ConwaysGameOfLife
 
         private void PopulateCells_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Cell.SimulatePoplulation(true);
+            Classes.Cell.PupulationCycleActivated = true;
+            Classes.Cell.SimulatePoplulation();
         }
 
-        //private void CanclePopulateCells_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Classes.Cell.SimulatePoplulation(false);
-        //}
+        private void CanclePopulateCells_Click(object sender, RoutedEventArgs e)
+        {
+            Classes.Cell.PupulationCycleActivated = false;
+        }
+
+
+
+
+
+
     }
 }

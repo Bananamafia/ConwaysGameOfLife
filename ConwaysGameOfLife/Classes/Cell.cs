@@ -25,6 +25,8 @@ namespace ConwaysGameOfLife.Classes
         public bool IsAlive { get; set; } = _startLivingCondition();
         public bool IsAliveInNextTurn { get; set; }
 
+        public static bool PupulationCycleActivated;
+
         private SolidColorBrush cellColor;
         public SolidColorBrush CellColor
         {
@@ -162,9 +164,9 @@ namespace ConwaysGameOfLife.Classes
             CellColor = solidColorBrush;
         }
 
-        public static async void SimulatePoplulation(bool activated)
+        public static async void SimulatePoplulation()
         {
-            while (activated)
+            while (PupulationCycleActivated)
             {
                 foreach (Cell cell in Classes.PlayingField.Field)
                 {
