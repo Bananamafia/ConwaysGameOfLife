@@ -46,7 +46,10 @@ namespace ConwaysGameOfLife
             Classes.GameManager.PauseGame();
         }
 
-
+        private void RestartGame_Click(object sender, RoutedEventArgs e)
+        {
+            Classes.GameManager.RestartGame();
+        }
 
 
 

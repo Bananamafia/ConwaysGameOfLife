@@ -31,7 +31,10 @@ namespace ConwaysGameOfLife.Classes
 
         public static void RestartGame()
         {
+            Grid playingFieldGrid = MainWindow.AppWindow.PlayingFieldGrid;
 
+            playingFieldGrid.Children.Clear();
+            Classes.PlayingField.InstantiateCellsOnPlayingField(playingFieldGrid);
         }
 
 
