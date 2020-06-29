@@ -22,11 +22,13 @@ namespace ConwaysGameOfLife.Classes
         {
             Classes.Cell.PupulationCycleActivated = true;
             Classes.Cell.SimulatePoplulation();
+            MainWindow.AppWindow.MenuBar.Opacity = 0.15;
         }
 
         public static void PauseGame()
         {
             Classes.Cell.PupulationCycleActivated = false;
+            MainWindow.AppWindow.MenuBar.Opacity = 1;
         }
 
         public static void RestartGame()

@@ -6,37 +6,66 @@
         xmlns:local="clr-namespace:ConwaysGameOfLife"
         mc:Ignorable="d"
         Title="Conways Game of Life"
-        Height="450"
+        Height="800"
         Width="800">
-    
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="20,5" />
+            <Setter Property="Background"
+                    Value="#00000000" />
+            <Setter Property="BorderBrush"
+                    Value="#00000000" />
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-            <Button x:Name="PopulateCellsButton"
-                    Click="PopulateCells_Click"
-                    Grid.Row="0"
-                    Margin="10">Populate Cells</Button>
-
-            <Button x:Name="CanclePopulateCellsButton"
-                    Click="CanclePopulateCells_Click"
-                    Grid.Row="0"
-                    Margin="10">Cancle Population</Button>
-
-            <Button x:Name="RestartGameButton"
-                    Click="RestartGame_Click"
-                    Grid.Row="0"
-                    Margin="10">Restart</Button>
-
-        </StackPanel>
-
         <Grid x:Name="PlayingFieldGrid"
-              Grid.Row="1">
+              Grid.Row="0"
+              Grid.RowSpan="3"
+              Panel.ZIndex="0" />
 
-        </Grid>
+        <Border x:Name="MenuBar"
+                MouseEnter="MenuBar_MouseEnter"
+                MouseLeave="MenuBar_MouseLeave"
+                Grid.Row="2"
+                Margin="10"
+                BorderThickness="1"
+                CornerRadius="8"
+                Background="SteelBlue"
+                MaxWidth="300"
+                Panel.ZIndex="1">
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        MouseEnter="MenuBar_MouseEnter">
+
+                <Button x:Name="PopulateCellsButton"
+                        Click="PopulateCells_Click">
+                    <Image Source="/Images/Play.png"
+                           MaxHeight="35" />
+                </Button>
+
+                <Button x:Name="CanclePopulateCellsButton"
+                        Click="CanclePopulateCells_Click">
+                    <Image Source="/Images/Pause.png"
+                           MaxHeight="35" />
+                </Button>
+
+                <Button x:Name="RestartGameButton"
+                        Click="RestartGame_Click">
+                    <Image Source="/Images/Restart.png"
+                           MaxHeight="35" />
+                </Button>
+            </StackPanel>
+        </Border>
+
     </Grid>
 </Window>

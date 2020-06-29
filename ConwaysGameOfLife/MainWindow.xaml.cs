@@ -44,6 +44,7 @@ namespace ConwaysGameOfLife
         private void CanclePopulateCells_Click(object sender, RoutedEventArgs e)
         {
             Classes.GameManager.PauseGame();
+            MenuBar.Opacity = 1;
         }
 
         private void RestartGame_Click(object sender, RoutedEventArgs e)
@@ -51,8 +52,17 @@ namespace ConwaysGameOfLife
             Classes.GameManager.RestartGame();
         }
 
+        private void MenuBar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            MenuBar.Opacity = 1;
+        }
 
-
-
+        private void MenuBar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (Classes.Cell.PupulationCycleActivated == true)
+            {
+                MenuBar.Opacity = 0.15;
+            }
+        }
     }
 }
