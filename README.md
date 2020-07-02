@@ -1,7 +1,5 @@
 # ConwaysGameOfLife
-Conway's Game of Life
-
-Creating a simulation of cellpopullation with the rules of Conway's Game of Life (https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+Creating a simulation of cell-population with the rules of Conway's Game of Life (https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 
 Planned Features:
 - using MVVM patterns
