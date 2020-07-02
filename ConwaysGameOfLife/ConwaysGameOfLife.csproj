@@ -10,12 +10,14 @@
     <None Remove="Images\Pause.png" />
     <None Remove="Images\Play.png" />
     <None Remove="Images\Restart.png" />
+    <None Remove="Images\Settings.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\Pause.png" />
     <Resource Include="Images\Play.png" />
     <Resource Include="Images\Restart.png" />
+    <Resource Include="Images\Settings.png" />
   </ItemGroup>
 
 </Project>

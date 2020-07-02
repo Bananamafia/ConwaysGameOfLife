@@ -52,17 +52,39 @@ namespace ConwaysGameOfLife
             Classes.GameManager.RestartGame();
         }
 
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            if (PopulationSpeedStackPanel.Visibility == Visibility.Visible)
+            { 
+                PopulationSpeedStackPanel.Visibility = Visibility.Hidden; 
+            }
+            else
+            {
+                PopulationSpeedStackPanel.Visibility = Visibility.Visible;
+            }           
+        }
+
         private void MenuBar_MouseEnter(object sender, MouseEventArgs e)
         {
             MenuBar.Opacity = 1;
         }
 
-        private void MenuBar_MouseLeave(object sender, MouseEventArgs e)
+        private async void MenuBar_MouseLeave(object sender, MouseEventArgs e)
         {
             if (Classes.Cell.PupulationCycleActivated == true)
             {
+                await Task.Delay(500);
                 MenuBar.Opacity = 0.15;
             }
         }
+
+        private async void PopulationSpeedStackPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            await Task.Delay(500);
+            PopulationSpeedStackPanel.Visibility = Visibility.Hidden;
+            MenuBar.Opacity = 0.15;
+        }
+
+
     }
 }

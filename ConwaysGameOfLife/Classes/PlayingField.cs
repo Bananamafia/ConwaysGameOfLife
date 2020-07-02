@@ -18,7 +18,7 @@ namespace ConwaysGameOfLife.Classes
         public static Cell[,] Field = new Cell[60, 60];
         private static int _fieldLength = Field.GetLength(0);
         private static int _fieldHeight = Field.GetLength(1);
-
+        
         public static void SettingUpPlayingFieldGrid(Grid grid)
         {
             for (int i = 0; i < _fieldLength; i++)
@@ -50,7 +50,6 @@ namespace ConwaysGameOfLife.Classes
                 }
             }
         }
-
 
 
         public static void ShowCellPosition(Grid grid)

@@ -5,8 +5,10 @@ using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace ConwaysGameOfLife.Classes
 {
@@ -52,9 +54,6 @@ namespace ConwaysGameOfLife.Classes
                 cellColor = value;
                 OnPropertyChanged("CellColor");
             }
-
-
-
         }
 
         public int[] PositionOfCell;
@@ -123,6 +122,19 @@ namespace ConwaysGameOfLife.Classes
             }
         }
 
+        public static int PopulationSpeed { get; set; } = 1;
+
+        private int generationCounter = 0;
+        public int GenerationCounter
+        {
+            get
+            { return generationCounter; }
+            set
+            {
+                generationCounter = value;
+                OnPropertyChanged("GenerationCounter");
+            }
+        }
 
         public static async void SimulatePoplulation()
         {
@@ -161,7 +173,9 @@ namespace ConwaysGameOfLife.Classes
                     cell.IsAlive = cell.IsAliveInNextTurn;
                 }
 
-                await Task.Delay(100);
+                Classes.PlayingField.Field[0, 0].GenerationCounter++;
+
+                await Task.Delay(100 * PopulationSpeed);
             }
         }
 
