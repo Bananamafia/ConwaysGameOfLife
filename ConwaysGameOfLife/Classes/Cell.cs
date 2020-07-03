@@ -12,50 +12,8 @@ using System.Windows.Media.Animation;
 
 namespace ConwaysGameOfLife.Classes
 {
-
-
     class Cell : INotifyPropertyChanged
     {
-        static bool _startLivingCondition()
-        {
-            Random rnd = new Random();
-            const int _maxValue = 100;
-            const int _livingChance = 18;
-
-            return rnd.Next(_maxValue) <= _livingChance;
-        }
-        public bool IsAlive { get; set; } = _startLivingCondition();
-        public bool IsAliveInNextTurn { get; set; }
-
-        public static bool PupulationCycleActivated;
-
-        private SolidColorBrush cellColor;
-        public SolidColorBrush CellColor
-        {
-            get
-            {
-                SolidColorBrush solidColorBrush = new SolidColorBrush();
-
-                if (IsAlive)
-                {
-                    solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
-                }
-                else
-                {
-                    solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
-                }
-
-                cellColor = solidColorBrush;
-
-                return cellColor;
-            }
-            set
-            {
-                cellColor = value;
-                OnPropertyChanged("CellColor");
-            }
-        }
-
         public int[] PositionOfCell;
         public List<Cell> NeighbourCells
         {
@@ -103,7 +61,11 @@ namespace ConwaysGameOfLife.Classes
 
                 return _neighbourCells;
             }
-        }
+        } //todo: take a look, if we really need all this code to put the NeighbourCells in this list
+
+        public bool IsAlive { get; set; } = _startLivingCondition(); //todo: instead of setting the IsAlive Status here, maybe better in the constructor?
+        public bool IsAliveInNextTurn;
+
         public int LivingNeighbourCells
         {
             get
@@ -122,19 +84,26 @@ namespace ConwaysGameOfLife.Classes
             }
         }
 
-        public static int PopulationSpeed { get; set; } = 1;
 
-        private int generationCounter = 0;
-        public int GenerationCounter
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string property)
         {
-            get
-            { return generationCounter; }
-            set
+            if (PropertyChanged != null)
             {
-                generationCounter = value;
-                OnPropertyChanged("GenerationCounter");
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
+
+
+
+
+
+
+
+
+
+
+        //todo: SimulatePopulation Function maybe better somewhere else, to keep only Props in the Cell Class
 
         public static async void SimulatePoplulation()
         {
@@ -152,12 +121,7 @@ namespace ConwaysGameOfLife.Classes
 
                     if (cell.IsAlive)
                     {
-                        if (cell.LivingNeighbourCells < 2)
-                        {
-                            cell.IsAliveInNextTurn = false;
-                            solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
-                        }
-                        else if (cell.LivingNeighbourCells > 3)
+                        if (cell.LivingNeighbourCells < 2 || cell.LivingNeighbourCells > 3)
                         {
                             cell.IsAliveInNextTurn = false;
                             solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
@@ -174,22 +138,70 @@ namespace ConwaysGameOfLife.Classes
                 }
 
                 Classes.PlayingField.Field[0, 0].GenerationCounter++;
-
                 await Task.Delay(100 * PopulationSpeed);
             }
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string property)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
+        //todo: PopulationCycleActivated and PopulationSpeed don't fit in the Cell very well... better different Class 
+        public static bool PupulationCycleActivated;
+        public static int PopulationSpeed { get; set; } = 1;
 
+
+        //todo: maybe startLivingCondition better in a other Class, to keep Cell class only with Props
+        static bool _startLivingCondition()
+        {
+            Random rnd = new Random();
+            const int _maxValue = 100;
+            const int _livingChance = 18;
+
+            return rnd.Next(_maxValue) <= _livingChance;
         }
 
+
+
+        //todo: put GenerationCounter in a different Class? 
+
+        private int generationCounter = 0;
+        public int GenerationCounter
+        {
+            get
+            { return generationCounter; }
+            set
+            {
+                generationCounter = value;
+                OnPropertyChanged("GenerationCounter");
+            }
+        }
+
+
+        //todo: IsAliveToColorConverter instead of Cell Property
+
+        private SolidColorBrush cellColor;
+        public SolidColorBrush CellColor
+        {
+            get
+            {
+                SolidColorBrush solidColorBrush = new SolidColorBrush();
+
+                if (IsAlive)
+                {
+                    solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
+                }
+                else
+                {
+                    solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
+                }
+
+                cellColor = solidColorBrush;
+
+                return cellColor;
+            }
+            set
+            {
+                cellColor = value;
+                OnPropertyChanged("CellColor");
+            }
+        }
     }
 }
