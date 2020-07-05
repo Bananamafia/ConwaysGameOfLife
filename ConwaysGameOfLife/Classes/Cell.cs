@@ -12,10 +12,115 @@ using System.Windows.Media.Animation;
 
 namespace ConwaysGameOfLife.Classes
 {
-    class Cell : INotifyPropertyChanged
+    public class Cell : INotifyPropertyChanged
     {
+        //---Constructor---
+        public Cell(int[] cellPosition)
+        {
+            IsAlive = _startLivingCondition();
+            _isAliveInNextTurn = IsAlive;
+            PositionOfCell = cellPosition;
+        }
+
+        //---Propertys and Variables---
         public int[] PositionOfCell;
-        public List<Cell> NeighbourCells
+
+        public List<Cell> NeighbourCells; //todo: Define Neighbours
+
+        private bool _isAlive;
+        public bool IsAlive
+        {
+            get { return _isAlive; }
+            set
+            {
+                _isAlive = value;
+                OnPropertyChanged("IsAlive");
+            }
+        }
+
+        private bool _isAliveInNextTurn;
+
+        private int _livingNeighbourCells;
+
+        public int LivingNeighbourCells
+        {
+            get { return _livingNeighbourCells; }
+            set
+            {
+                _livingNeighbourCells = value;
+                OnPropertyChanged("LivingNeighbourCells");
+            }
+        }
+
+
+        //---Methods---
+        private static bool _startLivingCondition()
+        {
+            Random rnd = new Random();
+            const int _maxValue = 100;
+            const int _livingChance = 18;
+
+            return rnd.Next(_maxValue) <= _livingChance;
+        }
+
+        private void GetNumberOfLivingNeighbourCells()
+        {
+            int counter = 0;
+
+            foreach (Cell neighbour in NeighbourCells)
+            {
+                if (neighbour.IsAlive)
+                {
+                    counter++;
+                }
+            }
+
+            LivingNeighbourCells = counter;
+        }
+
+        private void DetermineLivingStatusOfNextTurn()
+        {
+            if (IsAlive)
+            {
+                if (LivingNeighbourCells < 2 || LivingNeighbourCells > 3)
+                {
+                    _isAliveInNextTurn = false;
+                }
+            }
+            else
+            {
+                if (LivingNeighbourCells == 3)
+                {
+                    _isAliveInNextTurn = true;
+                }
+            }
+        }
+
+        private void UpdateLivingStatus()
+        {
+            IsAlive = _isAliveInNextTurn;
+        }
+
+
+        //---INotifyPropertyChanged---
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
+
+
+
+
+
+
+
+        //todo: get rid of this Code (after everything is set up and working fine)
+
+        public List<Cell> NeighbourCellsOld
         {
             get
             {
@@ -63,26 +168,13 @@ namespace ConwaysGameOfLife.Classes
             }
         } //todo: take a look, if we really need all this code to put the NeighbourCells in this list ++ maybe setting neighbours in ViewModel
 
-        public bool IsAlive { get; set; } = _startLivingCondition(); //todo: start Living Condition better in Constructor?
-
-        static bool _startLivingCondition()
-        {
-            Random rnd = new Random();
-            const int _maxValue = 100;
-            const int _livingChance = 18;
-
-            return rnd.Next(_maxValue) <= _livingChance;
-        } //todo: start Living Condition better in Constructor?
-
-        public bool IsAliveInNextTurn;
-
-        public int LivingNeighbourCells
+        public int LivingNeighbourCellsOld
         {
             get
             {
                 int counter = 0;
 
-                foreach (Cell cell in this.NeighbourCells)
+                foreach (Cell cell in this.NeighbourCellsOld)
                 {
                     if (cell.IsAlive)
                     {
@@ -95,15 +187,7 @@ namespace ConwaysGameOfLife.Classes
         }
 
 
-        //INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
+
 
 
         public static async void SimulatePoplulation()
@@ -114,17 +198,17 @@ namespace ConwaysGameOfLife.Classes
 
                 foreach (Cell cell in Classes.PlayingField.Field)
                 {
-                    if (!cell.IsAlive && cell.LivingNeighbourCells == 3)
+                    if (!cell.IsAlive && cell.LivingNeighbourCellsOld == 3)
                     {
-                        cell.IsAliveInNextTurn = true;
+                        cell._isAliveInNextTurn = true;
                         solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
                     }
 
                     if (cell.IsAlive)
                     {
-                        if (cell.LivingNeighbourCells < 2 || cell.LivingNeighbourCells > 3)
+                        if (cell.LivingNeighbourCellsOld < 2 || cell.LivingNeighbourCellsOld > 3)
                         {
-                            cell.IsAliveInNextTurn = false;
+                            cell._isAliveInNextTurn = false;
                             solidColorBrush.Color = System.Windows.Media.Color.FromRgb(255, 255, 255);
                         }
                     }
@@ -135,7 +219,7 @@ namespace ConwaysGameOfLife.Classes
 
                 foreach (Cell cell in Classes.PlayingField.Field)
                 {
-                    cell.IsAlive = cell.IsAliveInNextTurn;
+                    cell.IsAlive = cell._isAliveInNextTurn;
                 }
 
                 Classes.PlayingField.Field[0, 0].GenerationCounter++;
