@@ -15,11 +15,11 @@ namespace ConwaysGameOfLife.Classes
     class PlayingField
     {
         //public static Cell[,] Field = new Cell[100, 70];
-        public static Cell[,] Field = new Cell[60, 60];
-        private static int _fieldLength = Field.GetLength(0);
-        private static int _fieldHeight = Field.GetLength(1);
-        
-        public static void SettingUpPlayingFieldGrid(Grid grid)
+        public static Cell[,] Field = new Cell[60, 60]; //todo: View Content
+        private static int _fieldLength = Field.GetLength(0); //todo: View Content
+        private static int _fieldHeight = Field.GetLength(1); //todo: View Content
+
+        public static void SettingUpPlayingFieldGrid(Grid grid) //todo: View Content
         {
             for (int i = 0; i < _fieldLength; i++)
             {
@@ -32,7 +32,7 @@ namespace ConwaysGameOfLife.Classes
             }
         }
 
-        public static void InstantiateCellsOnPlayingField(Grid grid)
+        public static void InstantiateCellsOnPlayingField(Grid grid) //todo: check if all Code is necessary
         {
             for (int i = 0; i < _fieldHeight; i++)
             {
@@ -52,7 +52,7 @@ namespace ConwaysGameOfLife.Classes
         }
 
 
-        public static void ShowCellPosition(Grid grid)
+        public static void ShowCellPosition(Grid grid) //todo: only getting Cell Position is ViewModel Task, Showing it is View Task
         {
             Cell _chosenCell;
 
@@ -72,7 +72,7 @@ namespace ConwaysGameOfLife.Classes
                 }
             }
         }
-        public static void ShowNumberOfLivingCellNeighbours(Grid grid)
+        public static void ShowNumberOfLivingCellNeighbours(Grid grid) //todo: Task of View via Binding
         {
             Cell _chosenCell;
 

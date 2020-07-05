@@ -61,9 +61,19 @@ namespace ConwaysGameOfLife.Classes
 
                 return _neighbourCells;
             }
-        } //todo: take a look, if we really need all this code to put the NeighbourCells in this list
+        } //todo: take a look, if we really need all this code to put the NeighbourCells in this list ++ maybe setting neighbours in ViewModel
 
-        public bool IsAlive { get; set; } = _startLivingCondition(); //todo: instead of setting the IsAlive Status here, maybe better in the constructor?
+        public bool IsAlive { get; set; } = _startLivingCondition(); //todo: start Living Condition better in Constructor?
+
+        static bool _startLivingCondition()
+        {
+            Random rnd = new Random();
+            const int _maxValue = 100;
+            const int _livingChance = 18;
+
+            return rnd.Next(_maxValue) <= _livingChance;
+        } //todo: start Living Condition better in Constructor?
+
         public bool IsAliveInNextTurn;
 
         public int LivingNeighbourCells
@@ -85,6 +95,7 @@ namespace ConwaysGameOfLife.Classes
         }
 
 
+        //INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string property)
         {
@@ -94,16 +105,6 @@ namespace ConwaysGameOfLife.Classes
             }
         }
 
-
-
-
-
-
-
-
-
-
-        //todo: SimulatePopulation Function maybe better somewhere else, to keep only Props in the Cell Class
 
         public static async void SimulatePoplulation()
         {
@@ -140,30 +141,23 @@ namespace ConwaysGameOfLife.Classes
                 Classes.PlayingField.Field[0, 0].GenerationCounter++;
                 await Task.Delay(100 * PopulationSpeed);
             }
-        }
-
-
-        //todo: PopulationCycleActivated and PopulationSpeed don't fit in the Cell very well... better different Class 
-        public static bool PupulationCycleActivated;
-        public static int PopulationSpeed { get; set; } = 1;
-
-
-        //todo: maybe startLivingCondition better in a other Class, to keep Cell class only with Props
-        static bool _startLivingCondition()
-        {
-            Random rnd = new Random();
-            const int _maxValue = 100;
-            const int _livingChance = 18;
-
-            return rnd.Next(_maxValue) <= _livingChance;
-        }
+        } //todo: check if all code is necessary
 
 
 
-        //todo: put GenerationCounter in a different Class? 
+        public static bool PupulationCycleActivated; //todo: ViewModel Content
+        public static int PopulationSpeed { get; set; } = 1; //todo: ViewModel Content
 
-        private int generationCounter = 0;
-        public int GenerationCounter
+
+
+
+
+
+
+
+
+        private int generationCounter = 0; //todo: ViewModel Content
+        public int GenerationCounter //todo: ViewModel Content
         {
             get
             { return generationCounter; }
@@ -175,10 +169,10 @@ namespace ConwaysGameOfLife.Classes
         }
 
 
-        //todo: IsAliveToColorConverter instead of Cell Property
 
-        private SolidColorBrush cellColor;
-        public SolidColorBrush CellColor
+
+        private SolidColorBrush cellColor; //todo: ViewModel Content
+        public SolidColorBrush CellColor //todo: ViewModel Content, maybe better a Converter
         {
             get
             {
