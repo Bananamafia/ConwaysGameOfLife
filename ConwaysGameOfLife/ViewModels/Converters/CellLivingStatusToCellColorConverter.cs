@@ -18,7 +18,7 @@ namespace ConwaysGameOfLife.ViewModels.Converters
 
             if (value != null)
             {
-                if (value.ToString() == "true")
+                if ((bool)value == true)
                 {
                     solidColorBrush.Color = System.Windows.Media.Color.FromRgb(0, 0, 0);
                 }
