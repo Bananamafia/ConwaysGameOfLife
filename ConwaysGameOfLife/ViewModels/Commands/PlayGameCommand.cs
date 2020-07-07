@@ -18,7 +18,14 @@ namespace ConwaysGameOfLife.ViewModels.Commands
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            if (PlayingFieldViewModel.PopulationIsRunning)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public void Execute(object parameter)
