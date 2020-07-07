@@ -14,12 +14,21 @@
     <Window.Resources>
         <vm:PlayingFieldViewModel x:Key="PlayingField" />
         <convert:CellLivingStatusToCellColorConverter x:Key="CellLivingStatusToCellColor" />
+
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="10,5" />
+            <Setter Property="Background"
+                    Value="#00000000" />
+            <Setter Property="BorderBrush"
+                    Value="#00000000" />
+        </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition Height="75" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="20" />
@@ -34,9 +43,24 @@
         <StackPanel Grid.Row="1"
                     Grid.Column="1"
                     HorizontalAlignment="Right"
-                    Panel.ZIndex="1">
-            <TextBlock Text="Generation: xxxx" />
-            <TextBlock Text="Size of Population: xxxxx" />
+                    Panel.ZIndex="1"
+                    Background="#BFFFFFFF">
+            <StackPanel.Style>
+                <Style>
+                    <Setter Property="TextBlock.Foreground"
+                            Value="Green"/>
+                    <Setter Property="TextBlock.FontWeight"
+                            Value="Bold" />               
+                </Style>
+            </StackPanel.Style>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Generation: " />
+                <TextBlock Text="{Binding GenerationCounter}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Populationsize: " />
+                <TextBlock Text="{Binding PopulationSizeCounter}" />
+            </StackPanel>
         </StackPanel>
 
         <!--Playing Field-->
@@ -62,14 +86,21 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center"
                         MouseEnter="MenuBar_MouseEnter">
+                <StackPanel.Style>
+                    <Style>
+                        <Setter Property="Button.Margin"
+                                Value="15, 5" />
+                    </Style>
+                </StackPanel.Style>
+
                 <Button x:Name="PopulateCellsButton"
-                        Command="{Binding PlayGameCommand}">
+                        Command="{Binding playGameCommand}">
                     <Image Source="/Images/Play.png"
                            MaxHeight="35" />
                 </Button>
 
                 <Button x:Name="CanclePopulateCellsButton"
-                        Command="{Binding PauseGameCommand}">
+                        Command="{Binding pauseGameCommand}">
                     <Image Source="/Images/Pause.png"
                            MaxHeight="35" />
                 </Button>

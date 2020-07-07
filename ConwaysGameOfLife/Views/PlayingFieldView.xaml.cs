@@ -25,7 +25,7 @@ namespace ConwaysGameOfLife.Views
         {
             InitializeComponent();
             _viewModel = new PlayingFieldViewModel();
-            //this.DataContext = _viewModel;
+            this.DataContext = _viewModel;
             SettingUpPlayingFieldGridControl();
             SettingUpPlayingFieldGridDataContext();
         }
