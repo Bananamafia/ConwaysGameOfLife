@@ -25,7 +25,7 @@ namespace ConwaysGameOfLife.Models
         //---Propertys and Variables---
         public int[] PositionOfCell;
 
-        public List<Cell> NeighbourCells = new List<Cell>(); //todo: Define Neighbours
+        public List<Cell> NeighbourCells = new List<Cell>();
 
         private bool _isAlive;
         public bool IsAlive

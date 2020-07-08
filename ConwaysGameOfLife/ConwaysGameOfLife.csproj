@@ -11,6 +11,7 @@
     <None Remove="Images\Play.png" />
     <None Remove="Images\Restart.png" />
     <None Remove="Images\Settings.png" />
+    <None Remove="Images\Title.PNG" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
     <Resource Include="Images\Play.png" />
     <Resource Include="Images\Restart.png" />
     <Resource Include="Images\Settings.png" />
+    <Resource Include="Images\Title.PNG" />
   </ItemGroup>
 
 </Project>

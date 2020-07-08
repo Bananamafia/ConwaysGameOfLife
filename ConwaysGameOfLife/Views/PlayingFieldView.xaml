@@ -8,8 +8,10 @@
         xmlns:convert="clr-namespace:ConwaysGameOfLife.ViewModels.Converters"
         mc:Ignorable="d"
         Title="Conway's Game of Life"
-        Height="600"
-        Width="600">
+        Height="750"
+        Width="750"
+        WindowStartupLocation="CenterScreen"        
+        Icon="/Images/Title.PNG">
 
     <Window.Resources>
         <vm:PlayingFieldViewModel x:Key="PlayingField" />
@@ -81,7 +83,8 @@
                 CornerRadius="8"
                 Background="SteelBlue"
                 MaxWidth="300"
-                Panel.ZIndex="1">
+                Panel.ZIndex="1"
+                Cursor="Hand">
 
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
