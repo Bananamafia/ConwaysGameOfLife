@@ -1,4 +1,4 @@
-﻿using ConwaysGameOfLife.Classes;
+﻿using ConwaysGameOfLife.Models;
 using ConwaysGameOfLife.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,14 @@ namespace ConwaysGameOfLife.ViewModels
             CreatingCells();
             IdentifyNeighbours();
 
-
             playGameCommand = new PlayGameCommand(PlayGame);
             pauseGameCommand = new PauseGameCommand(PauseGame);
+            restartGameCommand = new RestartGameCommand(RestartGame);
         }
 
         public PlayGameCommand playGameCommand { get; private set; }
         public PauseGameCommand pauseGameCommand { get; private set; }
+        public RestartGameCommand restartGameCommand { get; set; }
 
         public static Cell[,] Field = new Cell[60, 60];
 
@@ -30,6 +31,17 @@ namespace ConwaysGameOfLife.ViewModels
         public int FieldHeight = Field.GetLength(1);
 
         public static bool PopulationIsRunning;
+        private int _populationSpeed = 1;
+        public int PopulationSpeed
+        {
+            get { return _populationSpeed; }
+            set
+            {
+                _populationSpeed = value;
+                OnPropertyChanged("PopulationSpeed");
+            }
+        }
+
 
         private int _generationCounter;
         public int GenerationCounter
@@ -132,7 +144,7 @@ namespace ConwaysGameOfLife.ViewModels
         }
 
 
-        //---Commands---
+        //---Command Functions---
         private async void PlayGame()
         {
             PopulationIsRunning = true;
@@ -152,7 +164,7 @@ namespace ConwaysGameOfLife.ViewModels
                 GenerationCounter++;
                 PopulationSizeCounter = LivingCellsOnPlayingField();
 
-                await Task.Delay(100);
+                await Task.Delay(100 * PopulationSpeed);
             }
         }
 
@@ -163,7 +175,13 @@ namespace ConwaysGameOfLife.ViewModels
 
         private void RestartGame()
         {
-            MessageBox.Show("Restart Game");
+            foreach (Cell cell in Field)
+            {
+                cell.IsAlive = Cell.StartLivingCondition();
+            }
+
+            GenerationCounter = 0;
+            PopulationSizeCounter = 0;
         }
 
 

@@ -1,4 +1,4 @@
-﻿using ConwaysGameOfLife.Classes;
+﻿using ConwaysGameOfLife.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

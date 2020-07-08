@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace ConwaysGameOfLife.ViewModels.Commands
 {
-    class RestartGameCommand : ICommand
+    public class RestartGameCommand : ICommand
     {
         private Action _execute;
         

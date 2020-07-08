@@ -20,9 +20,4 @@
     <Resource Include="Images\Settings.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Views\" />
-  </ItemGroup>
-
 </Project>

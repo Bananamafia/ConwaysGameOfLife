@@ -1,4 +1,4 @@
-﻿using ConwaysGameOfLife.Classes;
+﻿using ConwaysGameOfLife.Models;
 using ConwaysGameOfLife.ViewModels;
 using ConwaysGameOfLife.ViewModels.Converters;
 using System;
@@ -68,8 +68,6 @@ namespace ConwaysGameOfLife.Views
         }
 
 
-
-
         private void MenuBar_MouseEnter(object sender, MouseEventArgs e)
         {
             MenuBar.Opacity = 1;
@@ -77,7 +75,7 @@ namespace ConwaysGameOfLife.Views
 
         private async void MenuBar_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (Classes.Cell.PupulationCycleActivated == true)
+            if (ViewModels.PlayingFieldViewModel.PopulationIsRunning == true)
             {
                 await Task.Delay(500);
                 MenuBar.Opacity = 0.15;
@@ -89,6 +87,18 @@ namespace ConwaysGameOfLife.Views
             await Task.Delay(500);
             PopulationSpeedStackPanel.Visibility = Visibility.Hidden;
             MenuBar.Opacity = 0.15;
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(PopulationSpeedStackPanel.Visibility == Visibility.Hidden)
+            {
+                PopulationSpeedStackPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PopulationSpeedStackPanel.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
