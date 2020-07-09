@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,15 +66,7 @@ namespace ConwaysGameOfLife.Models
 
         public void GetNumberOfLivingNeighbourCells()
         {
-            int counter = 0;
-
-            foreach (Cell neighbour in NeighbourCells)
-            {
-                if (neighbour.IsAlive)
-                {
-                    counter++;
-                }
-            }
+            int counter = NeighbourCells.Count(cell => cell.IsAlive);
 
             LivingNeighbourCells = counter;
         }
