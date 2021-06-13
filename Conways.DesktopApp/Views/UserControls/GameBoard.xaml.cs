@@ -1,4 +1,5 @@
 ﻿using Conways.DesktopApp.ViewModels;
+using Conways.DesktopApp.ViewModels.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,6 @@ namespace Conways.DesktopApp.Views.UserControls
         {
             InitializeComponent();
             DrawGameBoard();
-
             DrawBorderAroundGridCells();
         }
 
@@ -40,14 +40,14 @@ namespace Conways.DesktopApp.Views.UserControls
             for (int x = 0; x < gridColumns; x++)
             {
                 //ColumnDefinition columnDefinition = new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) };
-                ColumnDefinition columnDefinition = new() { Width = new GridLength(5) };
+                ColumnDefinition columnDefinition = new() { Width = new GridLength(10) };
                 gameBoard.ColumnDefinitions.Add(columnDefinition);
             }
 
             for (int y = 0; y < gridRows; y++)
             {
                 //RowDefinition rowDefinition = new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) };
-                RowDefinition rowDefinition = new() { Height = new GridLength(5) };
+                RowDefinition rowDefinition = new() { Height = new GridLength(10) };
                 gameBoard.RowDefinitions.Add(rowDefinition);
             }
 
@@ -65,17 +65,22 @@ namespace Conways.DesktopApp.Views.UserControls
             {
                 for (int x = 0; x < gridColoumns; x++)
                 {
-                    Border border = new() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1) };
+                    Border border = new() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(0.5) };
                     Grid.SetColumn(border, x);
                     Grid.SetRow(border, y);
+
+                    border.DataContext = ((MainViewModel)this.DataContext).MyConwayCells
+                        .Find(cell => cell.PositionOnXAxis == x && cell.PositionOnYAxis == y);
+
+                    Binding binding = new("IsAlive");
+                    ConwayCellIsAliveToBrushConverter converter = new();
+                    binding.Converter = converter;
+
+                    border.SetBinding(BackgroundProperty, binding);
+
                     gameBoardGrid.Children.Add(border);
                 }
             }
-        }
-
-        public void SetConwayCellsOnGameBoard()
-        {
-
         }
     }
 }
