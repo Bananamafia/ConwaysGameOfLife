@@ -16,7 +16,12 @@
     </Window.DataContext>
 
     <Grid>
-        <uc:GameBoard HorizontalAlignment="Center"
-                      VerticalAlignment="Center" />
+        <StackPanel>
+            <Button x:Name="PopulationButton"
+                    Margin="10"
+                    Command="{Binding PopulateCommand}">Populate</Button>
+            <uc:GameBoard HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+        </StackPanel>
     </Grid>
 </Window>

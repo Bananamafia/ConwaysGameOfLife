@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Conways.DesktopApp.ViewModels
 {
-    abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
