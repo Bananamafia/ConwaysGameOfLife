@@ -18,6 +18,8 @@ namespace Conways.DesktopApp.Models
             IsAlive = random.Next(0, 100) <= initialLivingChanceInPercent;
         }
 
+        public List<ConwaysCell> NeighbourCells { get; init; }
+
         private readonly double initialLivingChanceInPercent = 30;
         public bool IsAlive { get; set; }
         public bool IsAliveInNextTurn { get; set; }
