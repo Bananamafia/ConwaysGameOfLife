@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Conways.DesktopApp.Models
 {
-    public class ConwaysCell
+    public class ConwayCell
     {
-        public ConwaysCell(int xCoordinate, int yCoordinate)
+        public ConwayCell(int xCoordinate, int yCoordinate)
         {
             Random random = new();
 
@@ -18,7 +18,7 @@ namespace Conways.DesktopApp.Models
             IsAlive = random.Next(0, 100) <= initialLivingChanceInPercent;
         }
 
-        public List<ConwaysCell> NeighbourCells { get; init; }
+        public List<ConwayCell> NeighbourCells { get; init; }
 
         private readonly double initialLivingChanceInPercent = 30;
         public bool IsAlive { get; set; }
