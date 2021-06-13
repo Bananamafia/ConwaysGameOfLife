@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Conways.DesktopApp.Views"
         xmlns:vm="clr-namespace:Conways.DesktopApp.ViewModels"
+        xmlns:uc="clr-namespace:Conways.DesktopApp.Views.UserControls"
         mc:Ignorable="d"
         Title="Conways Game of Life"
         Height="450"
@@ -14,7 +15,7 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <Grid x:Name="MainGrid">
-
+    <Grid>
+        <uc:GameBoard />
     </Grid>
 </Window>
