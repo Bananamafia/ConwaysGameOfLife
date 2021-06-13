@@ -16,9 +16,7 @@
     </Window.DataContext>
 
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding StartUpTime}" />
-            <uc:GameBoard />
-        </StackPanel>
+        <uc:GameBoard HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
     </Grid>
 </Window>

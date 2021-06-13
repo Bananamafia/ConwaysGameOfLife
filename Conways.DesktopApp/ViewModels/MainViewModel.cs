@@ -13,7 +13,7 @@ namespace Conways.DesktopApp.ViewModels
     {
         public MainViewModel()
         {
-            InstantiateConwayCells(200, 100);
+            InstantiateConwayCells(250, 130);
             AddNeighboursOfConwayCellsAsync();
         }
 
