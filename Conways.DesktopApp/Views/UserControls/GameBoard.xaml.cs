@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Conways.DesktopApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,23 +24,27 @@ namespace Conways.DesktopApp.Views.UserControls
         public GameBoard()
         {
             InitializeComponent();
-            DrawGameBoard(273, 152);
+            DrawGameBoard();
 
             DrawBorderAroundGridCells();
         }
 
-        public void DrawGameBoard(int columns, int rows)
+        public void DrawGameBoard()
         {
+            var dataContext = (MainViewModel)DataContext;
+            int gridColumns = dataContext.MyConwayCells.Last().PositionOnXAxis;
+            int gridRows = dataContext.MyConwayCells.Last().PositionOnYAxis;
+
             Grid gameBoard = new();
 
-            for (int i = 0; i < columns; i++)
+            for (int x = 0; x < gridColumns; x++)
             {
                 //ColumnDefinition columnDefinition = new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) };
                 ColumnDefinition columnDefinition = new() { Width = new GridLength(5) };
                 gameBoard.ColumnDefinitions.Add(columnDefinition);
             }
 
-            for (int i = 0; i < rows; i++)
+            for (int y = 0; y < gridRows; y++)
             {
                 //RowDefinition rowDefinition = new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) };
                 RowDefinition rowDefinition = new() { Height = new GridLength(5) };
@@ -53,19 +58,24 @@ namespace Conways.DesktopApp.Views.UserControls
         public void DrawBorderAroundGridCells()
         {
             Grid gameBoardGrid = FindName("GameBoardGrid") as Grid;
-            int columns = gameBoardGrid.ColumnDefinitions.Count;
-            int rows = gameBoardGrid.RowDefinitions.Count;
+            int gridColoumns = gameBoardGrid.ColumnDefinitions.Count;
+            int gridRows = gameBoardGrid.RowDefinitions.Count;
 
-            for (int i = 0; i < rows; i++)
+            for (int y = 0; y < gridRows; y++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int x = 0; x < gridColoumns; x++)
                 {
                     Border border = new() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(1) };
-                    Grid.SetColumn(border, j);
-                    Grid.SetRow(border, i);
+                    Grid.SetColumn(border, x);
+                    Grid.SetRow(border, y);
                     gameBoardGrid.Children.Add(border);
                 }
             }
+        }
+
+        public void SetConwayCellsOnGameBoard()
+        {
+
         }
     }
 }
