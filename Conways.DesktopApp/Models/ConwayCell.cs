@@ -16,6 +16,8 @@ namespace Conways.DesktopApp.Models
             PositionOnYAxis = yCoordinate;
 
             IsAlive = random.Next(0, 100) <= initialLivingChanceInPercent;
+
+            NeighbourCells = new();
         }
 
         public List<ConwayCell> NeighbourCells { get; init; }
