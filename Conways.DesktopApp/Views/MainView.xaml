@@ -17,6 +17,7 @@
 
     <Grid>
         <uc:GameBoard HorizontalAlignment="Center"
-                      VerticalAlignment="Center" />
+                      VerticalAlignment="Center"
+                      MyConwayCells="{Binding MyConwayCells}" />
     </Grid>
 </Window>

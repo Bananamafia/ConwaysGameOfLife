@@ -11,13 +11,13 @@ namespace Conways.DesktopApp.ViewModels
 {
     class MainViewModel : BaseViewModel
     {
+        public List<ConwayCell> MyConwayCells { get; set; }
+
         public MainViewModel()
         {
             InstantiateConwayCells(250, 130);
             AddNeighboursOfConwayCellsAsync();
         }
-
-        public List<ConwayCell> MyConwayCells { get; set; }
 
         private void InstantiateConwayCells(int columnsOfGameBoard, int rowsOfGameBoard)
         {
@@ -31,8 +31,7 @@ namespace Conways.DesktopApp.ViewModels
                 }
             }
         }
-
-        private async Task AddNeighboursOfConwayCellsAsync()
+        private void AddNeighboursOfConwayCellsAsync()
         {
             int maxXCoordinate = MyConwayCells.Last().PositionOnXAxis;
             int maxYCoordninate = MyConwayCells.Last().PositionOnYAxis;
@@ -103,8 +102,6 @@ namespace Conways.DesktopApp.ViewModels
                         cell.PositionOnXAxis == rightColumn &&
                         cell.PositionOnYAxis == bottomRow));
                 }));
-
-                await Task.WhenAll(tasks);
             }
         }
     }

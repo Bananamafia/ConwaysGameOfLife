@@ -1,7 +1,9 @@
-﻿using Conways.DesktopApp.ViewModels;
+﻿using Conways.DesktopApp.Models;
+using Conways.DesktopApp.ViewModels;
 using Conways.DesktopApp.ViewModels.Converters;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,31 +24,35 @@ namespace Conways.DesktopApp.Views.UserControls
     /// </summary>
     public partial class GameBoard : UserControl
     {
+        #region MyConwayCells DependencyProperty
+        public List<ConwayCell> MyConwayCells
+        {
+            get { return (List<ConwayCell>)GetValue(MyConwayCellsProperty); }
+            set { SetValue(MyConwayCellsProperty, value); }
+        }
+        public static readonly DependencyProperty MyConwayCellsProperty =
+            DependencyProperty.Register("MyConwayCells", typeof(List<ConwayCell>), typeof(GameBoard), new PropertyMetadata(new List<ConwayCell>()));
+        #endregion
+
         public GameBoard()
         {
             InitializeComponent();
-            DrawGameBoard();
-            DrawBorderAroundGridCells();
         }
-
         public void DrawGameBoard()
         {
-            var dataContext = (MainViewModel)DataContext;
-            int gridColumns = dataContext.MyConwayCells.Last().PositionOnXAxis;
-            int gridRows = dataContext.MyConwayCells.Last().PositionOnYAxis;
+            int gridColumns = MyConwayCells.Last().PositionOnXAxis;
+            int gridRows = MyConwayCells.Last().PositionOnYAxis;
 
             Grid gameBoard = new();
 
             for (int x = 0; x < gridColumns; x++)
             {
-                //ColumnDefinition columnDefinition = new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) };
                 ColumnDefinition columnDefinition = new() { Width = new GridLength(5) };
                 gameBoard.ColumnDefinitions.Add(columnDefinition);
             }
 
             for (int y = 0; y < gridRows; y++)
             {
-                //RowDefinition rowDefinition = new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) };
                 RowDefinition rowDefinition = new() { Height = new GridLength(5) };
                 gameBoard.RowDefinitions.Add(rowDefinition);
             }
@@ -54,7 +60,6 @@ namespace Conways.DesktopApp.Views.UserControls
             RegisterName("GameBoardGrid", gameBoard);
             BoardMainGrid.Children.Add(gameBoard);
         }
-
         public void DrawBorderAroundGridCells()
         {
             Grid gameBoardGrid = FindName("GameBoardGrid") as Grid;
@@ -69,8 +74,7 @@ namespace Conways.DesktopApp.Views.UserControls
                     Grid.SetColumn(border, x);
                     Grid.SetRow(border, y);
 
-                    border.DataContext = ((MainViewModel)this.DataContext).MyConwayCells
-                        .Find(cell => cell.PositionOnXAxis == x && cell.PositionOnYAxis == y);
+                    border.DataContext = MyConwayCells.Find(cell => cell.PositionOnXAxis == x && cell.PositionOnYAxis == y);
 
                     Binding binding = new("IsAlive");
                     ConwayCellIsAliveToBrushConverter converter = new();
@@ -82,5 +86,25 @@ namespace Conways.DesktopApp.Views.UserControls
                 }
             }
         }
+
+        #region Event Methods
+        //private void UserControl_Initialized(object sender, EventArgs e)
+        //{
+        //    if (!DesignerProperties.GetIsInDesignMode(this))
+        //    {
+        //        DrawGameBoard();
+        //        DrawBorderAroundGridCells();
+        //    }
+        //}
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                DrawGameBoard();
+                DrawBorderAroundGridCells();
+            }
+        }
+        #endregion
+
     }
 }
