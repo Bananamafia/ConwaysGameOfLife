@@ -1,4 +1,5 @@
 ﻿using Conways.DesktopApp.Models;
+using Conways.DesktopApp.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,27 @@ namespace Conways.DesktopApp.ViewModels
 {
     class MainViewModel : BaseViewModel
     {
-        public List<ConwayCell> MyConwayCells { get; set; }
+        #region MyConwayCells Property
+        private List<ConwayCell> myConwayCells;
+        public List<ConwayCell> MyConwayCells
+        {
+            get { return myConwayCells; }
+            set
+            {
+                myConwayCells = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        public PopulateCommand PopulateCommand { get; set; }
 
         public MainViewModel()
         {
             InstantiateConwayCells(250, 130);
+            //InstantiateConwayCells(10, 10);
             AddNeighboursOfConwayCellsAsync();
+            PopulateCommand = new(DoPopulation);
         }
 
         private void InstantiateConwayCells(int columnsOfGameBoard, int rowsOfGameBoard)
@@ -104,5 +120,28 @@ namespace Conways.DesktopApp.ViewModels
                 }));
             }
         }
+        private void DoPopulation()
+        {
+            foreach (var conwayCell in MyConwayCells)
+            {
+                int livingNeighbours = conwayCell.NeighbourCells.Where(cell => cell.IsAlive).Count();
+
+                if (conwayCell.IsAlive)
+                {
+                    conwayCell.IsAliveInNextTurn = livingNeighbours is < 2 or > 4 ? false : conwayCell.IsAlive;
+                }
+                else
+                {
+                    conwayCell.IsAliveInNextTurn = livingNeighbours is 3 ? true : conwayCell.IsAlive;
+                }
+            }
+
+            foreach (var conwayCell in MyConwayCells)
+            {
+                conwayCell.IsAlive = conwayCell.IsAliveInNextTurn;
+
+            }
+        }
+
     }
 }

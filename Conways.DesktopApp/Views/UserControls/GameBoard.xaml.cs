@@ -88,14 +88,6 @@ namespace Conways.DesktopApp.Views.UserControls
         }
 
         #region Event Methods
-        //private void UserControl_Initialized(object sender, EventArgs e)
-        //{
-        //    if (!DesignerProperties.GetIsInDesignMode(this))
-        //    {
-        //        DrawGameBoard();
-        //        DrawBorderAroundGridCells();
-        //    }
-        //}
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (!DesignerProperties.GetIsInDesignMode(this))
