@@ -25,7 +25,7 @@ namespace Conways.DesktopApp.Models
 
         private readonly double initialLivingChanceInPercent = 30;
 
-
+        //public bool IsAlive { get; set; }
         private bool isAlive;
 
         public bool IsAlive
@@ -38,38 +38,9 @@ namespace Conways.DesktopApp.Models
             }
         }
 
-
-
-        //public bool IsAlive { get; set; }
         public bool IsAliveInNextTurn { get; set; }
 
         public int PositionOnXAxis { get; init; }
         public int PositionOnYAxis { get; init; }
-
-        public void CalculateLivingStatusOfNextTurn()
-        {
-            int livingNeighbours = NeighbourCells.Where(cell => cell.IsAlive).Count();
-
-            switch (livingNeighbours)
-            {
-                case < 2:
-                    IsAliveInNextTurn = false;
-                    break;
-                case 3:
-                    IsAliveInNextTurn = true;
-                    break;
-                case > 4:
-                    IsAliveInNextTurn = false;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void DoPopulation()
-        {
-            IsAlive = IsAliveInNextTurn;
-        }
-
     }
 }
