@@ -18,12 +18,12 @@
     <Grid>
         <StackPanel>
             <Button x:Name="PopulationButton"
-        <uc:GameBoard HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      MyConwayCells="{Binding MyConwayCells}" />
                     Margin="10"
                     Command="{Binding PopulateCommand}">Populate</Button>
 
+            <uc:GameBoard HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          MyConwayCells="{Binding MyConwayCells}" />
         </StackPanel>
     </Grid>
 </Window>
