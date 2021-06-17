@@ -130,7 +130,7 @@ namespace Conways.DesktopApp.ViewModels
                     int livingNeighbours = conwayCell.NeighbourCells.Where(cell => cell.IsAlive).Count();
                     conwayCell.IsAliveInNextTurn = livingNeighbours switch
                     {
-                        < 2 or > 4 => false,
+                        < 2 or > 3 => false,
                         3 => true,
                         _ => conwayCell.IsAlive
                     };

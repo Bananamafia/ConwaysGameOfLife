@@ -23,7 +23,7 @@ namespace Conways.DesktopApp.Models
 
         public List<ConwayCell> NeighbourCells { get; init; }
 
-        private readonly double initialLivingChanceInPercent = 30;
+        private readonly double initialLivingChanceInPercent = 18;
 
         //public bool IsAlive { get; set; }
         private bool isAlive;
