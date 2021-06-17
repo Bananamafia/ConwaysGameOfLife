@@ -47,13 +47,13 @@ namespace Conways.DesktopApp.Views.UserControls
 
             for (int x = 0; x < gridColumns; x++)
             {
-                ColumnDefinition columnDefinition = new() { Width = new GridLength(5) };
+                ColumnDefinition columnDefinition = new() { Width = new GridLength(10) };
                 gameBoard.ColumnDefinitions.Add(columnDefinition);
             }
 
             for (int y = 0; y < gridRows; y++)
             {
-                RowDefinition rowDefinition = new() { Height = new GridLength(5) };
+                RowDefinition rowDefinition = new() { Height = new GridLength(10) };
                 gameBoard.RowDefinitions.Add(rowDefinition);
             }
 

@@ -29,7 +29,7 @@ namespace Conways.DesktopApp.ViewModels
 
         public MainViewModel()
         {
-            InstantiateConwayCells(250, 130);
+            InstantiateConwayCells(137, 67);
             //InstantiateConwayCells(10, 10);
             AddNeighboursOfConwayCellsAsync();
             PopulateCommand = new(DoPopulation);
@@ -120,27 +120,35 @@ namespace Conways.DesktopApp.ViewModels
                 }));
             }
         }
-        private void DoPopulation()
+        private async void DoPopulation()
         {
+            List<Task> tasks = new();
             foreach (var conwayCell in MyConwayCells)
             {
-                int livingNeighbours = conwayCell.NeighbourCells.Where(cell => cell.IsAlive).Count();
-
-                if (conwayCell.IsAlive)
+                tasks.Add(Task.Run(() =>
                 {
-                    conwayCell.IsAliveInNextTurn = livingNeighbours is < 2 or > 4 ? false : conwayCell.IsAlive;
-                }
-                else
-                {
-                    conwayCell.IsAliveInNextTurn = livingNeighbours is 3 ? true : conwayCell.IsAlive;
-                }
+                    int livingNeighbours = conwayCell.NeighbourCells.Where(cell => cell.IsAlive).Count();
+                    conwayCell.IsAliveInNextTurn = livingNeighbours switch
+                    {
+                        < 2 or > 4 => false,
+                        3 => true,
+                        _ => conwayCell.IsAlive
+                    };
+                }));
             }
+
+            await Task.WhenAll(tasks);
+            tasks = new();
 
             foreach (var conwayCell in MyConwayCells)
             {
-                conwayCell.IsAlive = conwayCell.IsAliveInNextTurn;
-
+                tasks.Add(Task.Run(() =>
+                {
+                    conwayCell.IsAlive = conwayCell.IsAliveInNextTurn;
+                }));
             }
+
+            await Task.WhenAll(tasks);
         }
 
     }
