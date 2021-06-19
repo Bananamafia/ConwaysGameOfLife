@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Conways.DesktopApp.Models
 {
-    public class ConwayCell : BaseViewModel
+    public class ConwayCell
     {
         public ConwayCell(int xCoordinate, int yCoordinate)
         {
@@ -25,18 +25,7 @@ namespace Conways.DesktopApp.Models
 
         private readonly double initialLivingChanceInPercent = 18;
 
-        //public bool IsAlive { get; set; }
-        private bool isAlive;
-
-        public bool IsAlive
-        {
-            get { return isAlive; }
-            set
-            {
-                isAlive = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool IsAlive { get; set; }
 
         public bool IsAliveInNextTurn { get; set; }
 

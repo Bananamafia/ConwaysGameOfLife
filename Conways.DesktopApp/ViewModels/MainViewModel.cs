@@ -2,6 +2,7 @@
 using Conways.DesktopApp.ViewModels.Commands;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,8 +14,8 @@ namespace Conways.DesktopApp.ViewModels
     class MainViewModel : BaseViewModel
     {
         #region MyConwayCells Property
-        private List<ConwayCell> myConwayCells;
-        public List<ConwayCell> MyConwayCells
+        private ObservableCollection<ConwayCell> myConwayCells;
+        public ObservableCollection<ConwayCell> MyConwayCells
         {
             get { return myConwayCells; }
             set
@@ -25,14 +26,17 @@ namespace Conways.DesktopApp.ViewModels
         }
         #endregion
 
+        public Converters.ConwayCellIsAliveToBrushConverter BoolToColor { get; set; }
+
         public PopulateCommand PopulateCommand { get; set; }
 
         public MainViewModel()
         {
-            InstantiateConwayCells(137, 67);
-            //InstantiateConwayCells(10, 10);
+            //InstantiateConwayCells(137, 67);
+            InstantiateConwayCells(30, 30);
             AddNeighboursOfConwayCellsAsync();
             PopulateCommand = new(DoPopulation);
+            BoolToColor = new Converters.ConwayCellIsAliveToBrushConverter();
         }
 
         private void InstantiateConwayCells(int columnsOfGameBoard, int rowsOfGameBoard)
@@ -86,35 +90,35 @@ namespace Conways.DesktopApp.ViewModels
                     else
                     { rightColumn = 0; }
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                         cell.PositionOnXAxis == leftColumn &&
                         cell.PositionOnYAxis == topRow));
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                           cell.PositionOnXAxis == sameColumn &&
                           cell.PositionOnYAxis == topRow));
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                         cell.PositionOnXAxis == rightColumn &&
                         cell.PositionOnYAxis == topRow));
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                         cell.PositionOnXAxis == leftColumn &&
                         cell.PositionOnYAxis == sameRow));
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                         cell.PositionOnXAxis == rightColumn &&
                         cell.PositionOnYAxis == sameRow));
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                         cell.PositionOnXAxis == leftColumn &&
                         cell.PositionOnYAxis == bottomRow));
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                         cell.PositionOnXAxis == sameColumn &&
                         cell.PositionOnYAxis == bottomRow));
 
-                    conwayCell.NeighbourCells.Add(MyConwayCells.Find(cell =>
+                    conwayCell.NeighbourCells.Add(MyConwayCells.First(cell =>
                         cell.PositionOnXAxis == rightColumn &&
                         cell.PositionOnYAxis == bottomRow));
                 }));
@@ -148,8 +152,8 @@ namespace Conways.DesktopApp.ViewModels
                 }));
             }
 
+            OnPropertyChanged("MyConwayCells");
             await Task.WhenAll(tasks);
         }
-
     }
 }

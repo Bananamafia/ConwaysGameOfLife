@@ -3,6 +3,7 @@ using Conways.DesktopApp.ViewModels;
 using Conways.DesktopApp.ViewModels.Converters;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,13 +26,13 @@ namespace Conways.DesktopApp.Views.UserControls
     public partial class GameBoard : UserControl
     {
         #region MyConwayCells DependencyProperty
-        public List<ConwayCell> MyConwayCells
+        public ObservableCollection<ConwayCell> MyConwayCells
         {
-            get { return (List<ConwayCell>)GetValue(MyConwayCellsProperty); }
+            get { return (ObservableCollection<ConwayCell>)GetValue(MyConwayCellsProperty); }
             set { SetValue(MyConwayCellsProperty, value); }
         }
         public static readonly DependencyProperty MyConwayCellsProperty =
-            DependencyProperty.Register("MyConwayCells", typeof(List<ConwayCell>), typeof(GameBoard), new PropertyMetadata(new List<ConwayCell>()));
+            DependencyProperty.Register("MyConwayCells", typeof(ObservableCollection<ConwayCell>), typeof(GameBoard), new PropertyMetadata(new ObservableCollection<ConwayCell>()));
         #endregion
 
         public GameBoard()
@@ -74,9 +75,9 @@ namespace Conways.DesktopApp.Views.UserControls
                     Grid.SetColumn(border, x);
                     Grid.SetRow(border, y);
 
-                    border.DataContext = MyConwayCells.Find(cell => cell.PositionOnXAxis == x && cell.PositionOnYAxis == y);
+                    int cellId = MyConwayCells.IndexOf(MyConwayCells.First(cell => cell.PositionOnXAxis == x && cell.PositionOnYAxis == y));
 
-                    Binding binding = new("IsAlive");
+                    Binding binding = new($"MyConwayCells[{cellId}].IsAlive");
                     ConwayCellIsAliveToBrushConverter converter = new();
                     binding.Converter = converter;
 

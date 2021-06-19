@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Conways.DesktopApp.Views"
         xmlns:vm="clr-namespace:Conways.DesktopApp.ViewModels"
         xmlns:uc="clr-namespace:Conways.DesktopApp.Views.UserControls"
+        xmlns:conv="clr-namespace:Conways.DesktopApp.ViewModels.Converters"
         mc:Ignorable="d"
         Title="Conways Game of Life"
         Height="450"
@@ -15,6 +16,9 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
+    <Window.Resources>
+        <conv:ConwayCellIsAliveToBrushConverter x:Key="BoolToColor" />
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <Button x:Name="PopulationButton"
