@@ -25,8 +25,7 @@ namespace Conways.DesktopApp.ViewModels
             }
         }
         #endregion
-
-        public Converters.ConwayCellIsAliveToBrushConverter BoolToColor { get; set; }
+        public bool GameIsRunning { get; set; } = false;
 
         public PopulateCommand PopulateCommand { get; set; }
 
@@ -36,7 +35,6 @@ namespace Conways.DesktopApp.ViewModels
             InstantiateConwayCells(30, 30);
             AddNeighboursOfConwayCellsAsync();
             PopulateCommand = new(DoPopulation);
-            BoolToColor = new Converters.ConwayCellIsAliveToBrushConverter();
         }
 
         private void InstantiateConwayCells(int columnsOfGameBoard, int rowsOfGameBoard)
@@ -126,34 +124,41 @@ namespace Conways.DesktopApp.ViewModels
         }
         private async void DoPopulation()
         {
-            List<Task> tasks = new();
-            foreach (var conwayCell in MyConwayCells)
+            GameIsRunning = !GameIsRunning;
+
+            while (GameIsRunning)
             {
-                tasks.Add(Task.Run(() =>
+                List<Task> tasks = new();
+                foreach (var conwayCell in MyConwayCells)
                 {
-                    int livingNeighbours = conwayCell.NeighbourCells.Where(cell => cell.IsAlive).Count();
-                    conwayCell.IsAliveInNextTurn = livingNeighbours switch
+                    tasks.Add(Task.Run(() =>
                     {
-                        < 2 or > 3 => false,
-                        3 => true,
-                        _ => conwayCell.IsAlive
-                    };
-                }));
-            }
+                        int livingNeighbours = conwayCell.NeighbourCells.Where(cell => cell.IsAlive).Count();
+                        conwayCell.IsAliveInNextTurn = livingNeighbours switch
+                        {
+                            < 2 or > 3 => false,
+                            3 => true,
+                            _ => conwayCell.IsAlive
+                        };
+                    }));
+                }
 
-            await Task.WhenAll(tasks);
-            tasks = new();
+                await Task.WhenAll(tasks);
+                tasks = new();
 
-            foreach (var conwayCell in MyConwayCells)
-            {
-                tasks.Add(Task.Run(() =>
+                foreach (var conwayCell in MyConwayCells)
                 {
-                    conwayCell.IsAlive = conwayCell.IsAliveInNextTurn;
-                }));
-            }
+                    tasks.Add(Task.Run(() =>
+                    {
+                        conwayCell.IsAlive = conwayCell.IsAliveInNextTurn;
+                    }));
+                }
 
-            OnPropertyChanged("MyConwayCells");
-            await Task.WhenAll(tasks);
+                OnPropertyChanged("MyConwayCells");
+                await Task.WhenAll(tasks);
+
+                await Task.Delay(75);
+            }
         }
     }
 }

@@ -16,9 +16,6 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <Window.Resources>
-        <conv:ConwayCellIsAliveToBrushConverter x:Key="BoolToColor" />
-    </Window.Resources>
     <Grid>
         <StackPanel>
             <Button x:Name="PopulationButton"
