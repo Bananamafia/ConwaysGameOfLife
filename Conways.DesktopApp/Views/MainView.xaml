@@ -18,9 +18,7 @@
 
     <Grid>
         <StackPanel>
-            <Button x:Name="PopulationButton"
-                    Margin="10"
-                    Command="{Binding PopulateCommand}">Populate</Button>
+            <uc:GameControls />
 
             <uc:GameBoard HorizontalAlignment="Center"
                           VerticalAlignment="Center"

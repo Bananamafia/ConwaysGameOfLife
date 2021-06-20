@@ -28,6 +28,7 @@ namespace Conways.DesktopApp.ViewModels
         public bool GameIsRunning { get; set; } = false;
 
         public PopulateCommand PopulateCommand { get; set; }
+        public RestartCommand RestartCommand { get; set; }
 
         public MainViewModel()
         {
@@ -35,8 +36,10 @@ namespace Conways.DesktopApp.ViewModels
             InstantiateConwayCells(30, 30);
             AddNeighboursOfConwayCellsAsync();
             PopulateCommand = new(DoPopulation);
+            RestartCommand = new(RestartGame);
         }
 
+        #region Methods
         private void InstantiateConwayCells(int columnsOfGameBoard, int rowsOfGameBoard)
         {
             MyConwayCells = new();
@@ -160,5 +163,19 @@ namespace Conways.DesktopApp.ViewModels
                 await Task.Delay(75);
             }
         }
+        private void RestartGame()
+        {
+            GameIsRunning = false;
+            Random random = new();
+            int initialLivingChanceInPercent = 18;
+
+            foreach (var conwayCell in MyConwayCells)
+            {
+                conwayCell.IsAlive = random.Next(0, 100) <= initialLivingChanceInPercent;
+            }
+
+            OnPropertyChanged("MyConwayCells");
+        }
+        #endregion
     }
 }
