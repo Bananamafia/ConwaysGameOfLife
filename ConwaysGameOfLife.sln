@@ -9,9 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConwaysV02", "ConwaysV02", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EE39C725-DE0D-4FAE-856C-A677788F3208}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9EC7AA21-7A4A-41D5-9888-7FDDFC03550B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.DesktopApp", "Conways.DesktopApp\Conways.DesktopApp.csproj", "{18008F8D-9B3E-432A-B83A-C15589CA0E6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Conways.DesktopApp", "Conways.DesktopApp\Conways.DesktopApp.csproj", "{18008F8D-9B3E-432A-B83A-C15589CA0E6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,7 +31,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EE39C725-DE0D-4FAE-856C-A677788F3208} = {56E74723-8956-4090-9988-46C7B9E4DEC8}
-		{9EC7AA21-7A4A-41D5-9888-7FDDFC03550B} = {56E74723-8956-4090-9988-46C7B9E4DEC8}
 		{18008F8D-9B3E-432A-B83A-C15589CA0E6F} = {EE39C725-DE0D-4FAE-856C-A677788F3208}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

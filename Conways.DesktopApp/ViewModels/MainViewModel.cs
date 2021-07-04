@@ -14,8 +14,8 @@ namespace Conways.DesktopApp.ViewModels
     class MainViewModel : BaseViewModel
     {
         #region MyConwayCells Property
-        private ObservableCollection<ConwayCell> myConwayCells;
-        public ObservableCollection<ConwayCell> MyConwayCells
+        private List<ConwayCell> myConwayCells;
+        public List<ConwayCell> MyConwayCells
         {
             get { return myConwayCells; }
             set
@@ -159,6 +159,11 @@ namespace Conways.DesktopApp.ViewModels
 
                 OnPropertyChanged("MyConwayCells");
                 await Task.WhenAll(tasks);
+
+                //todo: find a cleaner way to invoke the dependencyproperty changed callback in GameBoard
+                var tempConwayCells = MyConwayCells;
+                MyConwayCells = new List<ConwayCell>();
+                MyConwayCells = tempConwayCells;
 
                 await Task.Delay(75);
             }

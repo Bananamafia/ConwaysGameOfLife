@@ -25,21 +25,28 @@ namespace Conways.DesktopApp.Views.UserControls
     /// </summary>
     public partial class GameBoard : UserControl
     {
+        #region Properties
         #region MyConwayCells DependencyProperty
-        public ObservableCollection<ConwayCell> MyConwayCells
+        public List<ConwayCell> MyConwayCells
         {
-            get { return (ObservableCollection<ConwayCell>)GetValue(MyConwayCellsProperty); }
+            get { return (List<ConwayCell>)GetValue(MyConwayCellsProperty); }
             set { SetValue(MyConwayCellsProperty, value); }
         }
         public static readonly DependencyProperty MyConwayCellsProperty =
-            DependencyProperty.Register("MyConwayCells", typeof(ObservableCollection<ConwayCell>), typeof(GameBoard), new PropertyMetadata(new ObservableCollection<ConwayCell>()));
+            DependencyProperty.Register("MyConwayCells", typeof(List<ConwayCell>), typeof(GameBoard), new PropertyMetadata(new List<ConwayCell>(), new PropertyChangedCallback(CellLivingStatusChangedCallback)));
+
         #endregion
+        #endregion
+
+        private List<Border> cellBorderControls = new();
 
         public GameBoard()
         {
             InitializeComponent();
         }
-        public void DrawGameBoard()
+
+        #region Functional Methods
+        private void DrawGameBoard()
         {
             int gridColumns = MyConwayCells.Last().PositionOnXAxis;
             int gridRows = MyConwayCells.Last().PositionOnYAxis;
@@ -61,7 +68,7 @@ namespace Conways.DesktopApp.Views.UserControls
             RegisterName("GameBoardGrid", gameBoard);
             BoardMainGrid.Children.Add(gameBoard);
         }
-        public void DrawBorderAroundGridCells()
+        private void DrawBorderAroundGridCells()
         {
             Grid gameBoardGrid = FindName("GameBoardGrid") as Grid;
             int gridColoumns = gameBoardGrid.ColumnDefinitions.Count;
@@ -74,28 +81,47 @@ namespace Conways.DesktopApp.Views.UserControls
                     Border border = new() { BorderBrush = Brushes.LightGray, BorderThickness = new Thickness(0.5) };
                     Grid.SetColumn(border, x);
                     Grid.SetRow(border, y);
-
-                    int cellId = MyConwayCells.IndexOf(MyConwayCells.First(cell => cell.PositionOnXAxis == x && cell.PositionOnYAxis == y));
-
-                    Binding binding = new($"MyConwayCells[{cellId}].IsAlive");
-                    ConwayCellIsAliveToBrushConverter converter = new();
-                    binding.Converter = converter;
-
-                    border.SetBinding(BackgroundProperty, binding);
-
+                    cellBorderControls.Add(border);
                     gameBoardGrid.Children.Add(border);
                 }
+            }
+        }
+        private void FillBorderWithCellLivingStatus()
+        {
+            var CellDataEnumerator = MyConwayCells.GetEnumerator();
+
+            foreach (var borderControl in cellBorderControls)
+            {
+                if (CellDataEnumerator.MoveNext())
+                {
+                    borderControl.Background = CellDataEnumerator.Current.IsAlive switch
+                    {
+                        true => Brushes.Black,
+                        false => Brushes.White,
+                    };
+                }
+            }
+        }
+
+        #endregion
+
+        private static void CellLivingStatusChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is GameBoard gameBoardUserControl)
+            {
+                gameBoardUserControl.FillBorderWithCellLivingStatus();
             }
         }
 
         #region Event Methods
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!DesignerProperties.GetIsInDesignMode(this))
-            {
-                DrawGameBoard();
-                DrawBorderAroundGridCells();
-            }
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
+
+            DrawGameBoard();
+            DrawBorderAroundGridCells();
+            FillBorderWithCellLivingStatus();
         }
         #endregion
 
